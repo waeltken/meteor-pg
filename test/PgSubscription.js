@@ -298,6 +298,16 @@ function(test, done){
 
     Meteor.setTimeout(function() {
       test.equal(players.length, expectedRows.length);
+
+      // Test multiple quick changes to subscription
+      for (var i = 0; i < expectedRows.length; i++) {
+        players.change(i);
+      }
+      players.change();
+
+      Meteor.setTimeout(function() {
+        test.equal(player.length, expectedRows.length);
+      }, POLL_WAIT);
       done();
     }, POLL_WAIT);
   }, POLL_WAIT);
